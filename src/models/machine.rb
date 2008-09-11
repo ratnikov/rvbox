@@ -1,5 +1,3 @@
 class Machine
-  attr_accessor :name, :ostype, :memory, :hda
-
-
+  attr_accessor :name, :ostype
 end
