@@ -16,3 +16,5 @@ namespace :test do
   end
 end
 
+desc "Runs all the tests."
+task :test => [ "test:units" ]
