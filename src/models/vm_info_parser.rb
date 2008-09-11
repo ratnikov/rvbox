@@ -2,7 +2,9 @@ module VmInfoParser
 
   FieldParsers = {
     :name => /^Name:\s*(.+)\s*$/,
-    :ostype => /^Guest OS:\s*(.+)\s*$/
+    :ostype => /^Guest OS:\s*(.+)\s*$/,
+    :uuid => /^UUID:\s*(.+)\s*$/,
+    :ram => /^Memory:\s*(.+)\s*$/,
   }
 
   def parse_vm_info raw_info
