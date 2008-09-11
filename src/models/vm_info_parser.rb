@@ -10,11 +10,15 @@ class VmInfoParser
     template = real_template.dup
     regex = ""
     @erb_params = []
-    while template.sub!(/^([^<%]*)<%(.*)%>/, '') 
+    while template.sub!(/^([^<%]*)<%([^%>]*)%>/, '') 
       regex += "#{Regexp.escape $1}(.*)"
       @erb_params << $2
     end
-    @regex = /^#{regex}$/
+    @regex = /^#{regex}#{Regexp.escape template}$/
+  end
+
+  def parse str
+     
   end
 
   def default_template
