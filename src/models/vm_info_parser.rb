@@ -12,13 +12,21 @@ class VmInfoParser
     @erb_params = []
     while template.sub!(/^([^<%]*)<%([^%>]*)%>/, '') 
       regex += "#{Regexp.escape $1}(.*)"
-      @erb_params << $2
+      @erb_params << $2.strip.to_sym
     end
     @regex = /^#{regex}#{Regexp.escape template}$/
   end
 
   def parse str
-     
+    if match_data = str.match(regex)
+      hash = {}
+      match_data.captures.each_index do |i|
+        hash.merge!(@erb_params[i] => match_data.captures[i])
+      end
+      hash
+    else
+      nil
+    end
   end
 
   def default_template
