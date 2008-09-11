@@ -1,16 +1,11 @@
 module MachineFinder
 
-  def setup
-    @connector = VboxConnector.new
-    @connector.extend(Module.new do
-      attr_accessor :vbox_manage_return
-      def vbox_manage *args
-        vbox_manage_return
-      end
-    end)
+  def connector
+    @connector ||= VboxConnector.new
+    @connector
   end
 
   def find_all
-
+    connector.list_vm_names.map { |vm_name| connector.lookup_vm_info vm_name }.compact.map { |vm_hash| Machine.new vm_hash }
   end
 end
