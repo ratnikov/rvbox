@@ -13,10 +13,22 @@ class VboxConnector
     names
   end
 
-  def lookup_vm_info vm_name
-    raw_vm_info = vbox_manage("showvminfo #{vm_name}")
+  def list_vm_uuids
+    raw_info = vbox_manage('list vms')
 
-    if (parsed_vm = parse_vm_info raw_vm_info)[:name] == vm_name
+    uuids = []
+
+    while match_data = raw_info.match(VmInfoParser::FieldParsers[:uuid])
+      uuids << match_data.captures.first
+      raw_info = match_data.post_match
+    end
+    uuids
+  end
+
+  def lookup_vm_info_by_uuid vm_uuid
+    raw_vm_info = vbox_manage("showvminfo #{vm_uuid}")
+
+    if (parsed_vm = parse_vm_info raw_vm_info)[:uuid] == vm_uuid
       parsed_vm
     else
       nil
